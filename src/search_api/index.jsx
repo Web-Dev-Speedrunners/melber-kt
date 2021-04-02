@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 export class APICityModel {
   /**
    * Creates APICityModel object
@@ -27,7 +29,10 @@ export class APIStateCityList {
  * @param {string | number} zipcode zipcode to search for
  * @returns {Array<APICityModel>} All cities found in the zipcode
  */
-export const SearchForZipcode = async (zipcode) => []; // eslint-disable-line no-unused-vars
+export const SearchForZipcode = async (zipcode) => {
+  const result = await axios.get(`http://ctp-zip-api.herokuapp.com/zip/${zipcode}`);
+  return result.data.map((entry) => new APICityModel(entry));
+};
 
 /**
  * Get all cities for a given zipcode, grouped by states
