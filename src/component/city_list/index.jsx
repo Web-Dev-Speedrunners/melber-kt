@@ -1,16 +1,15 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import PropTypes from 'prop-types';
-
-// TODO: Render Header if given
-// TODO: Render CitySummaryCard component for each city in cities props
+import CitySummaryCard from '../city_summary_card';
 
 const CityCardList = ({ header, cities }) => (
   <div>
     <h1>{header}</h1>
-    <span>
-      City Count:
-      {cities.length}
-    </span>
+    {cities.map((city, index) => (
+      // eslint-disable-next-line react/no-array-index-key
+      <CitySummaryCard key={index} {...city} />
+    ))}
   </div>
 );
 
