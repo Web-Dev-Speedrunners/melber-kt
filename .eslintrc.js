@@ -18,7 +18,8 @@ module.exports = {
     'react',
   ],
   rules: {
-    'max-classes-per-file': 'off',
+    'max-classes-per-file': 0,
+    'no-console': 0,
   },
   settings: {
     'import/resolver': {
