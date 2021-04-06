@@ -29,7 +29,7 @@ const CitySummaryCard = ({
             {`Location: (${latitude}, ${longitude})`}
           </li>
           <li>
-            {`Population (Estimated): ${population}`}
+            {`Population (estimated): ${population}`}
           </li>
           <li>
             {`Total Wages: ${totalWages}`}
