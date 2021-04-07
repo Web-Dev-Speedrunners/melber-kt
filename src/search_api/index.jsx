@@ -8,6 +8,7 @@ export class APICityModel {
   constructor(apiCityEntry) {
     this.city = apiCityEntry.City;
     this.zipcode = apiCityEntry.Zipcode;
+    // added required fields
     this.state = apiCityEntry.state;
     this.latitude = apiCityEntry.latitude;
     this.longitude = apiCityEntry.longitude;
@@ -20,7 +21,7 @@ export class APIStateCityList {
   /**
    *
    * @param {string} stateName State Name
-   * @param {Object} apiCityEntryList all cities found by API
+   * @param {Object} apiCityEntryList all cities foun3 by API
    */
   constructor(stateName, apiCityEntryList) {
     this.stateName = stateName;
