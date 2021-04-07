@@ -8,7 +8,11 @@ export class APICityModel {
   constructor(apiCityEntry) {
     this.city = apiCityEntry.City;
     this.zipcode = apiCityEntry.Zipcode;
-    // TODO: Add all required fields
+    this.state = apiCityEntry.state;
+    this.latitude = apiCityEntry.latitude;
+    this.longitude = apiCityEntry.longitude;
+    this.population = apiCityEntry.population;
+    this.totalWages = apiCityEntry.totalWages;
   }
 }
 
