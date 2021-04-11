@@ -9,11 +9,11 @@ export class APICityModel {
     this.city = apiCityEntry.City;
     this.zipcode = apiCityEntry.Zipcode;
     // added required fields
-    this.state = apiCityEntry.state;
-    this.latitude = apiCityEntry.latitude;
-    this.longitude = apiCityEntry.longitude;
-    this.population = apiCityEntry.population;
-    this.totalWages = apiCityEntry.totalWages;
+    this.state = apiCityEntry.State;
+    this.latitude = apiCityEntry.Lat;
+    this.longitude = apiCityEntry.Long;
+    this.population = apiCityEntry.EstimatedPopulation;
+    this.totalWages = apiCityEntry.TotalWages;
   }
 }
 
@@ -21,7 +21,7 @@ export class APIStateCityList {
   /**
    *
    * @param {string} stateName State Name
-   * @param {Object} apiCityEntryList all cities foun3 by API
+   * @param {Object} apiCityEntryList all cities found by API
    */
   constructor(stateName, apiCityEntryList) {
     this.stateName = stateName;
