@@ -8,7 +8,11 @@ export class APICityModel {
   constructor(apiCityEntry) {
     this.city = apiCityEntry.City;
     this.zipcode = apiCityEntry.Zipcode;
-    // TODO: Add all required fields
+    this.state = apiCityEntry.State;
+    this.latitude = apiCityEntry.Lat;
+    this.longitude = apiCityEntry.Long;
+    this.population = apiCityEntry.EstimatedPopulation;
+    this.totalWages = apiCityEntry.TotalWages;
   }
 }
 
@@ -20,7 +24,9 @@ export class APIStateCityList {
    */
   constructor(stateName, apiCityEntryList) {
     this.stateName = stateName;
-    this.cities = apiCityEntryList.map((entry) => new APICityModel(entry));
+    // If we use SearchForZip, the list will already be in APICityModel format
+    // this.cities = apiCityEntryList.map((entry) => new APICityModel(entry));
+    this.cities = apiCityEntryList;
   }
 }
 
@@ -39,7 +45,30 @@ export const SearchForZipcode = async (zipcode) => {
  * @param {string} cityName Searched City Name
  * @returns {Array<APIStateCityList>} All State and their cities found by city name
  */
-export const SearchCityName = async (cityName) => []; // eslint-disable-line no-unused-vars
+export const SearchCityName = async (cityName) => {
+  const zipResults = await axios.get(`http://ctp-zip-api.herokuapp.com/city/${cityName}`);
+  const stateTable = {};
+
+  await Promise.all(
+    zipResults.data.map(async (zipcode) => {
+      const cityModels = await SearchForZipcode(zipcode);
+      cityModels.forEach((cityObj) => {
+        if (cityObj.city !== cityName) return;
+        // check if statetable has the state saved
+        if (stateTable[cityObj.state] !== undefined) {
+          stateTable[cityObj.state].push(cityObj);
+        } else {
+          stateTable[cityObj.state] = [cityObj];
+        }
+      });
+    }),
+  );
+
+  return (Object.entries(stateTable).map((entry) => {
+    const [state, cities] = entry;
+    return new APIStateCityList(state, cities);
+  }));
+}; // eslint-disable-line no-unused-vars
 
 export default {
   SearchForZipcode,
