@@ -33,7 +33,7 @@ const CitySummaryCard = ({
             {`Population (estimated): ${population}`}
           </li>
           <li key="wage">
-            {`Total Wages: ${totalWages}`}
+            {`Total Wages: $${totalWages}.00`}
           </li>
         </ul>
       </CardBody>
