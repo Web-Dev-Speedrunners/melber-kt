@@ -48,7 +48,11 @@ export const SearchCityName = async (cityName) => {
   const fmtCityString = cityName.toUpperCase();
   const result = await axios.get(`https://ctp-zip-api.herokuapp.com/city/${fmtCityString}`);
   // const cityState = new Map();
-  return result.data;
+  console.log(result);
+  if (result.statusText === 'OK') {
+    return result.data; // TODO: return the correct type
+  }
+  return [];
 };
 
 export default {
