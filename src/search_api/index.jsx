@@ -44,7 +44,12 @@ export const SearchForZipcode = async (zipcode) => {
  * @param {string} cityName Searched City Name
  * @returns {Array<APIStateCityList>} All State and their cities found by city name
  */
-export const SearchCityName = async (cityName) => []; // eslint-disable-line no-unused-vars
+export const SearchCityName = async (cityName) => {
+  const fmtCityString = cityName.toUpperCase();
+  const result = await axios.get(`https://ctp-zip-api.herokuapp.com/city/${fmtCityString}`);
+  // const cityState = new Map();
+  return result.data;
+};
 
 export default {
   SearchForZipcode,
