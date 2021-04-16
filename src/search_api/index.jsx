@@ -69,7 +69,7 @@ export const SearchCityName = async (cityName) => {
   return [...stateToCities].map(
     ([state, cities]) => (new APIStateCityList(state, cities)),
   );
-}; 
+};
 
 export default {
   SearchForZipcode,
