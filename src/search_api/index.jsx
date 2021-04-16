@@ -9,7 +9,11 @@ export class APICityModel {
     this.city = apiCityEntry.City;
     this.zipcode = apiCityEntry.Zipcode;
     this.state = apiCityEntry.State;
-    // TODO: Add all required fields
+    this.latitude = apiCityEntry.Lat;
+    this.longitude = apiCityEntry.Long;
+    this.population = apiCityEntry.EstimatedPopulation;
+    this.totalWages = apiCityEntry.TotalWages;
+    this.locationText = apiCityEntry.LocationText;
   }
 }
 
