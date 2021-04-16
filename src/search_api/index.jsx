@@ -8,6 +8,7 @@ export class APICityModel {
   constructor(apiCityEntry) {
     this.city = apiCityEntry.City;
     this.zipcode = apiCityEntry.Zipcode;
+    this.state = apiCityEntry.State;
     // TODO: Add all required fields
   }
 }
@@ -20,7 +21,7 @@ export class APIStateCityList {
    */
   constructor(stateName, apiCityEntryList) {
     this.stateName = stateName;
-    this.cities = apiCityEntryList.map((entry) => new APICityModel(entry));
+    this.cities = apiCityEntryList; // Array<APICityModel>
   }
 }
 
@@ -39,7 +40,36 @@ export const SearchForZipcode = async (zipcode) => {
  * @param {string} cityName Searched City Name
  * @returns {Array<APIStateCityList>} All State and their cities found by city name
  */
-export const SearchCityName = async (cityName) => []; // eslint-disable-line no-unused-vars
+export const SearchCityName = async (cityName) => {
+  const zipcodes = await axios.get(`http://ctp-zip-api.herokuapp.com/city/${cityName.toUpperCase()}`);
+
+  // An array of functions
+  const retrieveCitiesFn = [];
+  zipcodes.data.forEach((code) => {
+    retrieveCitiesFn.push(SearchForZipcode(code));
+  });
+
+  // asynchronously resolve all
+  const cityArray = await Promise.all(retrieveCitiesFn);
+
+  // create new accumilating Map, merging on each entry's state name.
+  // stateName => zipcodes with cities having {cityName}
+  const stateToCities = new Map();
+
+  // if state unseen add a list of it, otherwise append
+  cityArray.flat().forEach((cityObj: APICityModel) => {
+    const { state } = cityObj;
+    if (stateToCities.has(state)) {
+      stateToCities.get(state).push(cityObj);
+    } else {
+      stateToCities.set(state, [cityObj]);
+    }
+  });
+  // convert the map created to a {Array<APICityStateList>}
+  return [...stateToCities].map(
+    ([state, cities]) => (new APIStateCityList(state, cities)),
+  );
+}; 
 
 export default {
   SearchForZipcode,
