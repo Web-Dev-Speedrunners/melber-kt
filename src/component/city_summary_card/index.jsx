@@ -5,17 +5,17 @@ import {
   CardHeader,
   CardBody,
 } from 'reactstrap';
-import captializeWords from '../../utils/captialize';
 
 const CitySummaryCard = ({
-  city,
+  // city,
   state,
   latitude,
   longitude,
   population,
   totalWages,
+  locationText,
 }) => {
-  const cityName = captializeWords(city);
+  const cityName = locationText.split(',')[0];
 
   return (
     <Card>
@@ -41,12 +41,13 @@ const CitySummaryCard = ({
 };
 
 CitySummaryCard.propTypes = {
-  city: PropTypes.string.isRequired,
+  // city: PropTypes.string.isRequired,
   state: PropTypes.string.isRequired,
-  latitude: PropTypes.number.isRequired,
-  longitude: PropTypes.number.isRequired,
-  population: PropTypes.number.isRequired,
-  totalWages: PropTypes.number.isRequired,
+  latitude: PropTypes.string.isRequired,
+  longitude: PropTypes.string.isRequired,
+  population: PropTypes.string.isRequired,
+  totalWages: PropTypes.string.isRequired,
+  locationText: PropTypes.string.isRequired,
 };
 
 export default CitySummaryCard;
