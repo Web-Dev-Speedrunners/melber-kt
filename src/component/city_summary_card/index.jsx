@@ -8,6 +8,7 @@ import {
 
 const CitySummaryCard = ({
   // city,
+  zipcode,
   state,
   latitude,
   longitude,
@@ -26,6 +27,9 @@ const CitySummaryCard = ({
             {`State: ${state}`}
           </li>
           <li>
+            {`Zipcode: ${zipcode}`}
+          </li>
+          <li>
             {`Location: (${latitude}, ${longitude})`}
           </li>
           <li>
@@ -42,6 +46,7 @@ const CitySummaryCard = ({
 
 CitySummaryCard.propTypes = {
   // city: PropTypes.string.isRequired,
+  zipcode: PropTypes.string.isRequired,
   state: PropTypes.string.isRequired,
   latitude: PropTypes.string.isRequired,
   longitude: PropTypes.string.isRequired,
