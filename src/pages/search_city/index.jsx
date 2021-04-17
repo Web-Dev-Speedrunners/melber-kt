@@ -1,12 +1,10 @@
-/* eslint-disable */
 import React, { useState, useMemo } from 'react';
-import { ListGroup, ListGroupItem, Spinner } from 'reactstrap';
+import { Spinner } from 'reactstrap';
 import { makeStyles } from '@material-ui/styles';
 
-import PropTypes from 'prop-types';
-// import SearchInput from '../../component/search_input';
+import SearchInput from '../../component/search_input';
+import CityStateList from '../../component/city_state_list';
 import { SearchCityName } from '../../search_api';
-
 
 const useStyles = makeStyles({
   placeholderContent: {
@@ -18,29 +16,6 @@ const useStyles = makeStyles({
   },
 });
 
-const CityStateList = ({ cities, stateName }) => {
-  console.log('cityStateList:', cities);
-  return (
-    <div>
-      <h1>{stateName}</h1>
-      <ListGroup>
-        {cities.map(({ city, zipcode }, index) => (
-          // eslint-disable-next-line react/no-array-index-key
-          <ListGroupItem key={index}>
-            {city}
-            {' '}
-            {zipcode}
-          </ListGroupItem>
-        ))}
-      </ListGroup>
-    </div>
-  )
-};
-
-CityStateList.propTypes = {
-  // cities: PropTypes.arrayOf(PropTypes.object).isRequired, //
-};
-
 const Loading = () => <Spinner color="info" />;
 
 const SearchCityPage = () => {
@@ -50,14 +25,12 @@ const SearchCityPage = () => {
   const [loadingSearch, setLoadingSearch] = useState(false);
   const [errorMessage, setErrorMessage] = useState();
 
-  const handleSearch = async () => {
+  const handleSearch = async (cityQuery) => {
     try {
-      const cityQuery = 'Brooklyn';
       setLoadingSearch(true);
       if (errorMessage) setErrorMessage(undefined);
       const result = await SearchCityName(cityQuery);
       setSearchResult(result);
-      // console.log('res', result);
 
       if (result.length === 0) setErrorMessage('Not Found');
       setLoadingSearch(false);
@@ -91,10 +64,14 @@ const SearchCityPage = () => {
       <div>
         {
           searchResult.map((cityObj) => {
-            const { stateName, cities } = cityObj;
-            console.log(stateName);
+            const { cities } = cityObj;
+            // Note: must recover location text from an object because of
+            // abbreviations, but indexing is safe since each key must have an
+            // array with at least one element.
+            const { locationText } = cities[0];
+            console.log(cityObj);
             return (
-              <CityStateList cities={cities} stateName={stateName} />
+              <CityStateList cities={cities} locationText={locationText} />
             );
           })
         }
@@ -105,8 +82,8 @@ const SearchCityPage = () => {
   return (
     <div>
       <h1>Search by City</h1>
-      {/* <SearchInput placeholder="Melber" onSearch={handleSearch} /> */}
-      <button type="submit" onClick={handleSearch}>Search</button>
+      <SearchInput placeholder="Melber" onSearch={handleSearch} />
+      {/* <button type="submit" onClick={handleSearch}>Search</button> */}
       {content}
     </div>
   );

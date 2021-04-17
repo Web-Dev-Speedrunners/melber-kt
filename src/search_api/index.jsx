@@ -62,7 +62,8 @@ export const SearchCityName = async (cityName) => {
 
   // if state unseen add a list of it, otherwise append
   cityArray.flat().forEach((cityObj: APICityModel) => {
-    const { state } = cityObj;
+    const { state, city } = cityObj;
+    if (city.toUpperCase() !== cityName.toUpperCase()) return;
     if (stateToCities.has(state)) {
       stateToCities.get(state).push(cityObj);
     } else {
